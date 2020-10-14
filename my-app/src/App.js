@@ -42,34 +42,28 @@ const ColB = props => {
 const App = () => {
   const initialWidth = 100;
   const [width, setWidth] = useState(initialWidth)
-  const [resizing, setResizing] = useState(null)  // note: stores the initial clientX for code simplicity
+  const [resizing, setResizing] = useState(false)
 
-  const dividerOnMouseDown = e => {
-    console.log("mouse down", e.clientX)
-    setResizing(e.clientX)
+  const onMouseDown = () => {
+    setResizing(true)
   }
 
-  const dividerOnMouseUp = () => {
-    console.log("mouse up")
-    setResizing(null)
+  const onMouseUp = () => {
+    setResizing(false)
   }
 
-  const dividerOnMouseMove = (e) => {
-    if (resizing !== null) {
+  const onMouseMove = (e) => {
+    if (resizing) {
       const x = e.clientX
-      console.log(e)
-      // console.log(e.clientX, e.pageX, e.screenX)
-      console.log("x", x, "difference", x - resizing)
-      setWidth(x - 3)
-      // setWidth(width => {const a = width + (x - resizing); console.log("setting", a); return a})
+      setWidth(x - 2)
     }
   }
 
   return (
     <div className="App">
-      <Container onMouseUp={dividerOnMouseUp} onMouseMove={dividerOnMouseMove}>
+      <Container onMouseUp={onMouseUp} onMouseMove={onMouseMove}>
           <ColA width={width} />
-          <Divider onMouseDown={dividerOnMouseDown} />
+          <Divider onMouseDown={onMouseDown} />
           <ColB />
       </Container>
     </div>
